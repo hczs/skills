@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "1e1c8975-99a5-4f54-8986-777f4e23aa7b",
+  "path": "systematic-debugging",
+  "path_key": "systematic-debugging",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "systematic-debugging",
+    "branch": null
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "17ebb432-f2f8-4925-b85f-6b185db7a7f9",
+  "path": "office-hours",
+  "path_key": "office-hours",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/garrytan/gstack/tree/main/office-hours",
+    "subpath": "office-hours",
+    "branch": "main"
+  }
+}

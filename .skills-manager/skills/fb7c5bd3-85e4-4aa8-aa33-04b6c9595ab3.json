@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "fb7c5bd3-85e4-4aa8-aa33-04b6c9595ab3",
+  "path": "docx",
+  "path_key": "docx",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "docx",
+    "branch": null
+  }
+}

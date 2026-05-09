@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "50b4d57e-51f0-4f47-b0b0-ba3015b76f8d",
+  "path": "theme-factory",
+  "path_key": "theme-factory",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "theme-factory",
+    "branch": null
+  }
+}
