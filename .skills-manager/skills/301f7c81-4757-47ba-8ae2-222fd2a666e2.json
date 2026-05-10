@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "301f7c81-4757-47ba-8ae2-222fd2a666e2",
+  "path": "product-prd-interviewer",
+  "path_key": "product-prd-interviewer",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

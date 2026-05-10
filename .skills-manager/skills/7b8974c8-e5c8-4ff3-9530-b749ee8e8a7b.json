@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "7b8974c8-e5c8-4ff3-9530-b749ee8e8a7b",
+  "path": "idea-to-research-prep",
+  "path_key": "idea-to-research-prep",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

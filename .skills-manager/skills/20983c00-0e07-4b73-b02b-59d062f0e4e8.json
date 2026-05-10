@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "20983c00-0e07-4b73-b02b-59d062f0e4e8",
+  "path": "dev-phase-planner",
+  "path_key": "dev-phase-planner",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

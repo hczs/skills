@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "5c3aa214-dfa4-437e-bccf-7ee6fd98608f",
+  "path": "system-architect",
+  "path_key": "system-architect",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

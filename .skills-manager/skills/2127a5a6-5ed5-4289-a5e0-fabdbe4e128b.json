@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "2127a5a6-5ed5-4289-a5e0-fabdbe4e128b",
+  "path": "dev-phase-executor",
+  "path_key": "dev-phase-executor",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

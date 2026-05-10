@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "2b26d237-afdf-4a5e-9259-be5ebeb7d63d",
+  "path": "scaffold",
+  "path_key": "scaffold",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "e84e209c-d56a-4e22-b6f6-96e2accc83e3",
+  "path": "tech-stack-advisor",
+  "path_key": "tech-stack-advisor",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

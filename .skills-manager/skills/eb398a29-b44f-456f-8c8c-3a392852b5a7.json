@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "eb398a29-b44f-456f-8c8c-3a392852b5a7",
+  "path": "pages-to-api-spec",
+  "path_key": "pages-to-api-spec",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
