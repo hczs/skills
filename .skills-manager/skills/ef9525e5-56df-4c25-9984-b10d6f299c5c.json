@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "ef9525e5-56df-4c25-9984-b10d6f299c5c",
+  "path": "xlsx",
+  "path_key": "xlsx",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "xlsx",
+    "branch": null
+  }
+}

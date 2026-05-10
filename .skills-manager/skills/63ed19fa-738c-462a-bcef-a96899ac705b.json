@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "63ed19fa-738c-462a-bcef-a96899ac705b",
+  "path": "write",
+  "path_key": "write",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "write",
+    "branch": null
+  }
+}

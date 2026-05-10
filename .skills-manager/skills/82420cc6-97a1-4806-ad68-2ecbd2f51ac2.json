@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "82420cc6-97a1-4806-ad68-2ecbd2f51ac2",
+  "path": "writing-plans",
+  "path_key": "writing-plans",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "writing-plans",
+    "branch": null
+  }
+}

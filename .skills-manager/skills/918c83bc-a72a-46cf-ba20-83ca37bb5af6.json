@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "918c83bc-a72a-46cf-ba20-83ca37bb5af6",
+  "path": "learn",
+  "path_key": "learn",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "learn",
+    "branch": null
+  }
+}

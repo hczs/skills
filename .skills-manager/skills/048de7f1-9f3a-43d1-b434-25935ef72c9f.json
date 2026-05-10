@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "048de7f1-9f3a-43d1-b434-25935ef72c9f",
+  "path": "executing-plans",
+  "path_key": "executing-plans",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "executing-plans",
+    "branch": null
+  }
+}

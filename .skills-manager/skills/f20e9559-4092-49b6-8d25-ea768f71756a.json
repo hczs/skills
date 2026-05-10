@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "f20e9559-4092-49b6-8d25-ea768f71756a",
+  "path": "frontend-design",
+  "path_key": "frontend-design",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "frontend-design",
+    "branch": null
+  }
+}

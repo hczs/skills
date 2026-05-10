@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "321fc478-2c64-4e27-89c5-22cbef80dbc4",
+  "path": "pptx",
+  "path_key": "pptx",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "pptx",
+    "branch": null
+  }
+}
