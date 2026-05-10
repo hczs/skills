@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "86a55aa8-3013-4d58-b610-003a3777a9ea",
+  "path": "impeccable",
+  "path_key": "impeccable",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "impeccable",
+    "branch": null
+  }
+}
