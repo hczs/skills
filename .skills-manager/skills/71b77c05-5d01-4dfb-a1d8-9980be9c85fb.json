@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "71b77c05-5d01-4dfb-a1d8-9980be9c85fb",
+  "path": "anthropic-diagram",
+  "path_key": "anthropic-diagram",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/dingtingli/dtl-skills",
+    "subpath": "anthropic-diagram",
+    "branch": null
+  }
+}

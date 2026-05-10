@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "d33091c5-7d4a-4ddb-8829-2c7de35e4c9a",
+  "path": "review-duplication",
+  "path_key": "review-duplication",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/google-gemini/gemini-cli/tree/main/.gemini/skills",
+    "subpath": ".gemini/skills/review-duplication",
+    "branch": "main"
+  }
+}

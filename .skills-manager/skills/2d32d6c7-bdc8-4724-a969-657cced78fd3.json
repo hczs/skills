@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "2d32d6c7-bdc8-4724-a969-657cced78fd3",
+  "path": "code-reviewer",
+  "path_key": "code-reviewer",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/google-gemini/gemini-cli/tree/main/.gemini/skills",
+    "subpath": ".gemini/skills/code-reviewer",
+    "branch": "main"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "42d6a17f-adf2-4a62-9476-3caa1d2fa725",
+  "path": "write",
+  "path_key": "write",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/tw93/Waza/tree/main/skills",
+    "subpath": "skills/write",
+    "branch": "main"
+  }
+}
