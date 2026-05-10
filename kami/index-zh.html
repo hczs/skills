@@ -2,11 +2,76 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <title>Kami · Design System</title>
+  <title>Kami 紙：面向 AI Agent 的文档设计系统</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Kami 紙：面向 AI 文档生成的温暖纸质感设计系统，以单一强调色、serif 层级与编辑级留白，收束成稳定的排版。">
   <link rel="icon" href="https://gw.alipayobjects.com/zos/k/vl/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="canonical" href="https://kami.tw93.fun/index-zh.html">
+  <link rel="alternate" hreflang="en" href="https://kami.tw93.fun/">
+  <link rel="alternate" hreflang="zh-CN" href="https://kami.tw93.fun/index-zh.html">
+  <link rel="alternate" hreflang="ja" href="https://kami.tw93.fun/index-ja.html">
+  <link rel="alternate" hreflang="x-default" href="https://kami.tw93.fun/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kami 紙：面向 AI Agent 的文档设计系统">
+  <meta property="og:description" content="Kami 紙：面向 AI 文档生成的温暖纸质感设计系统，以单一强调色、serif 层级与编辑级留白，收束成稳定的排版。">
+  <meta property="og:url" content="https://kami.tw93.fun/index-zh.html">
+  <meta property="og:image" content="https://gw.alipayobjects.com/zos/k/vl/logo.svg">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kami 紙：面向 AI Agent 的文档设计系统">
+  <meta name="twitter:description" content="Kami 紙：面向 AI 文档生成的温暖纸质感设计系统，以单一强调色、serif 层级与编辑级留白，收束成稳定的排版。">
+  <meta name="twitter:image" content="https://gw.alipayobjects.com/zos/k/vl/logo.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Kami",
+    "description": "面向 AI 文档生成的温暖纸质感设计系统，以单一强调色、serif 层级与编辑级留白，收束成稳定的排版。",
+    "url": "https://kami.tw93.fun/index-zh.html",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "author": {
+      "@type": "Person",
+      "name": "Tw93",
+      "url": "https://tw93.fun",
+      "sameAs": ["https://github.com/tw93", "https://twitter.com/HiTw93", "https://tw93.fun", "https://weekly.tw93.fun", "https://yobi.tw93.fun"]
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Kami 是什么？",
+        "acceptedAnswer": { "@type": "Answer", "text": "一个面向 AI agent 的文档设计系统。一种强调色、衬线层级、暖色羊皮纸画布。给任何 LLM agent 一段描述，就能得到稳定的排版输出。也可以作为视觉设计简报给到图像渲染工具。" }
+      },
+      {
+        "@type": "Question",
+        "name": "Kami 能生成什么？",
+        "acceptedAnswer": { "@type": "Answer", "text": "八种文档：一页纸、长文档、信件、作品集、简历、幻灯片、个股研报、更新日志。外加 14 种内联 SVG 图表。输出为 HTML，可导出为 PDF、PNG 或幻灯片。" }
+      },
+      {
+        "@type": "Question",
+        "name": "怎么安装 Kami？",
+        "acceptedAnswer": { "@type": "Answer", "text": "Claude Code: npx skills add tw93/kami -a claude-code -g -y。插件市场安装在 Claude Code 2.1.136-2.1.138 暂时受上游路径校验影响。通用 agent：npx skills add tw93/kami -a '*' -g -y。Claude Desktop：从 GitHub Releases 下载 kami.zip，在 Skills 设置中上传即可。" }
+      },
+      {
+        "@type": "Question",
+        "name": "Kami 支持哪些语言？",
+        "acceptedAnswer": { "@type": "Answer", "text": "英文、中文、日文。每种语言使用专属衬线字体：英文 Charter，中文 TsangerJinKai02，日文 YuMincho。" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <nav class="lang-switch"><a href="./index.html">EN</a><a href="./index-zh.html" class="active">中</a><a href="./index-ja.html">日</a></nav>
@@ -48,22 +113,22 @@
     </div>
     <div class="demo-grid">
       <div class="demo-card">
-        <a href="assets/demos/demo-tesla.pdf" target="_blank"><img src="assets/demos/demo-tesla.png" alt="Tesla 公司介绍"></a>
-        <p class="demo-title">One-Pager · 中文</p>
-        <p class="demo-desc">Tesla 公司介绍，单页 A4</p>
+        <a href="assets/demos/demo-tesla.pdf" target="_blank"><img src="assets/demos/demo-tesla.png" alt="Tesla Q1 2026 财报点评" loading="lazy" decoding="async"></a>
+        <p class="demo-title">Equity Report · 中文</p>
+        <p class="demo-desc">Tesla Q1 2026 财报点评</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-musk-resume.pdf" target="_blank"><img src="assets/demos/demo-musk-resume.png" alt="Musk resume"></a>
+        <a href="assets/demos/demo-musk-resume.pdf" target="_blank"><img src="assets/demos/demo-musk-resume.png" alt="Musk resume" loading="lazy" decoding="async"></a>
         <p class="demo-title">Resume · English</p>
         <p class="demo-desc">创始人简历，2 页</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-kaku.pdf" target="_blank"><img src="assets/demos/demo-kaku.png" alt="Kaku 作品集"></a>
+        <a href="assets/demos/demo-kaku.pdf" target="_blank"><img src="assets/demos/demo-kaku.png" alt="Kaku 作品集" loading="lazy" decoding="async"></a>
         <p class="demo-title">作品集 · 日本語</p>
         <p class="demo-desc">Kaku 终端作品集（日文版），7 页</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-agent-slides.pdf" target="_blank"><img src="assets/demos/demo-agent-slides.png" alt="Agent slides"></a>
+        <a href="assets/demos/demo-agent-slides.pdf" target="_blank"><img src="assets/demos/demo-agent-slides.png" alt="Agent slides" loading="lazy" decoding="async"></a>
         <p class="demo-title">Slides · English</p>
         <p class="demo-desc">Agent keynote, 6 slides</p>
       </div>
@@ -82,7 +147,8 @@ npx skills add tw93/kami -a claude-code -g -y
 
 <span class="c"># Codex</span>
 npx skills add tw93/kami -a codex -g -y</pre>
-    <p class="section-lede" style="font-size:14px;">Claude Desktop：下载 <a href="https://cdn.jsdelivr.net/gh/tw93/kami@main/dist/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a>，在 Customize &gt; Skills &gt; "+" &gt; Create skill 中直接上传。</p>
+    <p class="section-lede" style="font-size:14px;">Claude Code 插件市场安装在 2.1.136-2.1.138 暂时受上游根目录 skill 路径校验影响；修复前请使用上面的 Claude Code 命令。</p>
+    <p class="section-lede" style="font-size:14px;">Claude Desktop：下载 <a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a>，在 Customize &gt; Skills &gt; "+" &gt; Create skill 中直接上传。</p>
   </section>
 
   <!-- ============ 02 MANIFESTO ============ -->
@@ -104,7 +170,7 @@ npx skills add tw93/kami -a codex -g -y</pre>
     </ol>
   </section>
 
-  <!-- ============ 01 COLOR ============ -->
+  <!-- ============ 03 COLOR ============ -->
   <section>
     <div class="section-head">
       <p class="section-num">03 · Color</p>
@@ -147,7 +213,7 @@ npx skills add tw93/kami -a codex -g -y</pre>
     </div>
   </section>
 
-  <!-- ============ 02 TYPE ============ -->
+  <!-- ============ 04 TYPE ============ -->
   <section>
     <div class="section-head">
       <p class="section-num">04 · Typography</p>
@@ -222,7 +288,7 @@ npx skills add tw93/kami -a codex -g -y</pre>
     </div>
   </section>
 
-  <!-- ============ 03 SPACING ============ -->
+  <!-- ============ 05 SPACING ============ -->
   <section>
     <div class="section-head">
       <p class="section-num">05 · Spacing &amp; Shape</p>
@@ -272,7 +338,7 @@ npx skills add tw93/kami -a codex -g -y</pre>
     </div>
   </section>
 
-  <!-- ============ 04 COMPONENTS ============ -->
+  <!-- ============ 06 COMPONENTS ============ -->
   <section>
     <div class="section-head">
       <p class="section-num">06 · Components</p>
@@ -363,12 +429,12 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     </div>
   </section>
 
-  <!-- ============ 05b DIAGRAMS ============ -->
+  <!-- ============ 07 DIAGRAMS ============ -->
   <section>
     <div class="section-head">
       <p class="section-num">07 · Diagrams</p>
       <h2 class="section-title">内联图表</h2>
-      <p class="section-lede">十二种内联 SVG 图表，覆盖架构、流程、数据三大场景。直接告诉 Claude 需要哪种图，会自动嵌入文档，配色与字体沿用 Kami 设计语言。</p>
+      <p class="section-lede">十四种内联 SVG 图表，覆盖架构、流程、数据三大场景。直接告诉 Claude 需要哪种图，会自动嵌入文档，配色与字体沿用 Kami 设计语言。</p>
     </div>
     <div class="chart-showcase">
       <!-- Architecture mini -->
@@ -465,7 +531,7 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     </div>
   </section>
 
-  <!-- ============ 05 DECISION TABLE ============ -->
+  <!-- ============ 08 DECISION TABLE ============ -->
   <section>
     <div class="section-head">
       <p class="section-num">08 · Decision Lookup</p>
@@ -488,7 +554,7 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     </table>
   </section>
 
-  <!-- ============ 06 ANTI ============ -->
+  <!-- ============ 09 ANTI ============ -->
   <section>
     <div class="section-head">
       <p class="section-num">09 · Anti-Patterns</p>
@@ -535,7 +601,7 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     </div>
   </section>
 
-  <!-- ============ 09 BACKGROUND ============ -->
+  <!-- ============ 10 BACKGROUND ============ -->
   <section>
     <div class="section-head">
       <p class="section-num">10 · Background</p>
@@ -545,6 +611,32 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       <p>我喜欢美股投资，经常让 Claude 写研究报告。每次出来的东西都是同一种默认文档的样子：灰扑扑的，结构不清晰，格式老旧，换个对话就换一套排版，没有一份让人想读下去。于是我开始一条一条地调字体、配色、间距，直到报告变成一份自己真正愿意看的页面。</p>
       <p>后来要去做《你不知道的 Agent：原理、架构与工程实践》分享，手上已经有文档，不想再做 PPT，就用 Claude Design 按自己的设计风格来排版，反复调了很多轮，最后慢慢满意了。加入了 inline SVG 图表、统一暖色调、也收紧了编辑节奏，做着做着覆盖了我常用的文档场景，就把这个过程继续抽象了一下，成了现在的 kami：一套交给任何 agent 都能放心出活的安静设计系统。</p>
     </div>
+  </section>
+
+  <!-- ============ 11 FAQ ============ -->
+  <section>
+    <div class="section-head">
+      <p class="section-num">11 · 常见问题</p>
+      <h2 class="section-title">FAQ</h2>
+    </div>
+    <dl class="faq">
+      <div class="faq-pair">
+        <dt>Kami 是什么？</dt>
+        <dd>一个面向 AI agent 的文档设计系统。一种强调色、衬线层级、暖色羊皮纸画布。给任何 LLM agent 一段描述，就能得到稳定的排版输出。也可以作为视觉设计简报给到 Claude Design 或 GPT Canvas 这类图像渲染工具。</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>能生成什么？</dt>
+        <dd>八种文档类型：一页纸、长文档、信件、作品集、简历、幻灯片、个股研报、更新日志。外加 14 种内联 SVG 图表用于可视化说明。输出为 HTML，可导出为 PDF、PNG 或幻灯片。</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>怎么安装？</dt>
+        <dd>Claude Code：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami -a claude-code -g -y</code>。插件市场安装在 Claude Code 2.1.136-2.1.138 暂时受上游路径校验影响。通用 agent：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami -a '*' -g -y</code>。Claude Desktop：从 GitHub Releases 下载 kami.zip，在自定义 &gt; Skills 中上传即可。</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>支持哪些语言？</dt>
+        <dd>英文、中文、日文。每种语言使用专属衬线字体：英文用 Charter，中文用 TsangerJinKai02，日文用 YuMincho。字距、行高、字号都按语言做了印刷级调优。</dd>
+      </div>
+    </dl>
   </section>
 
   <!-- ============ FOOTER ============ -->

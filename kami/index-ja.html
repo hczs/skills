@@ -2,11 +2,76 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>Kami · Design System</title>
+  <title>Kami 紙：AIエージェント向けドキュメントデザインシステム</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Kami（紙）は、AI時代の文書制作に向けた、あたたかな紙面デザインシステムです。単一アクセントカラー、serif中心の階層、編集的な余白で一貫した可読性をつくります。">
   <link rel="icon" href="https://gw.alipayobjects.com/zos/k/vl/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="canonical" href="https://kami.tw93.fun/index-ja.html">
+  <link rel="alternate" hreflang="en" href="https://kami.tw93.fun/">
+  <link rel="alternate" hreflang="zh-CN" href="https://kami.tw93.fun/index-zh.html">
+  <link rel="alternate" hreflang="ja" href="https://kami.tw93.fun/index-ja.html">
+  <link rel="alternate" hreflang="x-default" href="https://kami.tw93.fun/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kami 紙：AIエージェント向けドキュメントデザインシステム">
+  <meta property="og:description" content="Kami（紙）は、AI時代の文書制作に向けた、あたたかな紙面デザインシステムです。単一アクセントカラー、serif中心の階層、編集的な余白で一貫した可読性をつくります。">
+  <meta property="og:url" content="https://kami.tw93.fun/index-ja.html">
+  <meta property="og:image" content="https://gw.alipayobjects.com/zos/k/vl/logo.svg">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kami 紙：AIエージェント向けドキュメントデザインシステム">
+  <meta name="twitter:description" content="Kami（紙）は、AI時代の文書制作に向けた、あたたかな紙面デザインシステムです。単一アクセントカラー、serif中心の階層、編集的な余白で一貫した可読性をつくります。">
+  <meta name="twitter:image" content="https://gw.alipayobjects.com/zos/k/vl/logo.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Kami",
+    "description": "AI時代の文書制作に向けた、あたたかな紙面デザインシステム。",
+    "url": "https://kami.tw93.fun/index-ja.html",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "author": {
+      "@type": "Person",
+      "name": "Tw93",
+      "url": "https://tw93.fun",
+      "sameAs": ["https://github.com/tw93", "https://twitter.com/HiTw93", "https://tw93.fun", "https://weekly.tw93.fun", "https://yobi.tw93.fun"]
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Kamiとは？",
+        "acceptedAnswer": { "@type": "Answer", "text": "AIエージェント向けのドキュメントデザインシステムです。単一アクセントカラー、serif階層、あたたかなパーチメントキャンバスで安定したレイアウトを出力します。" }
+      },
+      {
+        "@type": "Question",
+        "name": "どんなドキュメントを作れますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "8種類：ワンページャー、長文ドキュメント、レター、ポートフォリオ、履歴書、スライド、個別株レポート、変更履歴。加えて14種のインラインSVG図表。HTML出力でPDF、PNG、スライドに変換可能です。" }
+      },
+      {
+        "@type": "Question",
+        "name": "セットアップ方法は？",
+        "acceptedAnswer": { "@type": "Answer", "text": "Claude Code: npx skills add tw93/kami -a claude-code -g -y。プラグインマーケットプレイス経由のインストールは Claude Code 2.1.136-2.1.138 で一時的に影響を受けています。汎用エージェント：npx skills add tw93/kami -a '*' -g -y。Claude Desktop：GitHub Releases から kami.zip をダウンロードし、Skills 設定でアップロード。" }
+      },
+      {
+        "@type": "Question",
+        "name": "対応言語は？",
+        "acceptedAnswer": { "@type": "Answer", "text": "英語、中国語、日本語。各言語に専用のserifフォント：英語はCharter、中国語はTsangerJinKai02、日本語はYuMinchoを使用します。" }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <nav class="lang-switch"><a href="./index.html">EN</a><a href="./index-zh.html">中</a><a href="./index-ja.html" class="active">日</a></nav>
@@ -49,22 +114,22 @@
     </div>
     <div class="demo-grid">
       <div class="demo-card">
-        <a href="assets/demos/demo-tesla.pdf" target="_blank"><img src="assets/demos/demo-tesla.png" alt="Tesla company one-pager"></a>
-        <p class="demo-title">One-Pager</p>
-        <p class="demo-desc">Tesla 企業紹介、A4 1ページ</p>
+        <a href="assets/demos/demo-tesla.pdf" target="_blank"><img src="assets/demos/demo-tesla.png" alt="Tesla Q1 2026 個別株レポート" loading="lazy" decoding="async"></a>
+        <p class="demo-title">Equity Report</p>
+        <p class="demo-desc">Tesla Q1 2026 決算レポート</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-musk-resume.pdf" target="_blank"><img src="assets/demos/demo-musk-resume.png" alt="Musk resume"></a>
+        <a href="assets/demos/demo-musk-resume.pdf" target="_blank"><img src="assets/demos/demo-musk-resume.png" alt="Musk resume" loading="lazy" decoding="async"></a>
         <p class="demo-title">Resume</p>
         <p class="demo-desc">創業者 CV、2ページ</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-kaku.pdf" target="_blank"><img src="assets/demos/demo-kaku.png" alt="Kaku portfolio"></a>
+        <a href="assets/demos/demo-kaku.pdf" target="_blank"><img src="assets/demos/demo-kaku.png" alt="Kaku portfolio" loading="lazy" decoding="async"></a>
         <p class="demo-title">Portfolio</p>
         <p class="demo-desc demo-desc-nowrap">Kaku ターミナル作品集、7ページ</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-agent-slides.pdf" target="_blank"><img src="assets/demos/demo-agent-slides.png" alt="Agent slides"></a>
+        <a href="assets/demos/demo-agent-slides.pdf" target="_blank"><img src="assets/demos/demo-agent-slides.png" alt="Agent slides" loading="lazy" decoding="async"></a>
         <p class="demo-title">Slides</p>
         <p class="demo-desc">Agent キーノート、6枚</p>
       </div>
@@ -83,7 +148,8 @@ npx skills add tw93/kami -a claude-code -g -y
 
 <span class="c"># Codex</span>
 npx skills add tw93/kami -a codex -g -y</pre>
-    <p class="section-lede" style="font-size:14px;">Claude Desktop の場合は <a href="https://cdn.jsdelivr.net/gh/tw93/kami@main/dist/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a> をダウンロードし、Customize &gt; Skills &gt; "+" &gt; Create skill からそのままアップロードします。</p>
+    <p class="section-lede" style="font-size:14px;">Claude Code 2.1.136-2.1.138 ではプラグインマーケットプレイス経由のインストールが一時的に影響を受けています。上流のルート skill パス検証が修正されるまでは、上の Claude Code コマンドを使ってください。</p>
+    <p class="section-lede" style="font-size:14px;">Claude Desktop の場合は <a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a> をダウンロードし、Customize &gt; Skills &gt; "+" &gt; Create skill からそのままアップロードします。</p>
   </section>
 
   <!-- ============ 02 MANIFESTO ============ -->
@@ -346,7 +412,7 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     <div class="section-head">
       <p class="section-num">07 · Diagrams</p>
       <h2 class="section-title">インライン図表</h2>
-      <p class="section-lede">アーキテクチャ、フロー、データ可視化をカバーする 12 種の SVG 図表を用意。必要な種類を Claude に伝えると、Kami の色と書体規則に沿って文書へ直接埋め込みます。</p>
+      <p class="section-lede">アーキテクチャ、フロー、データ可視化をカバーする 14 種の SVG 図表を用意。必要な種類を Claude に伝えると、Kami の色と書体規則に沿って文書へ直接埋め込みます。</p>
     </div>
     <div class="chart-showcase">
       <!-- Architecture mini -->
@@ -462,10 +528,10 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     </table>
   </section>
 
-  <!-- ============ 08 ANTI ============ -->
+  <!-- ============ 09 ANTI ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">08 · Anti-Patterns</p>
+      <p class="section-num">09 · Anti-Patterns</p>
       <h2 class="section-title">避けるべきこと</h2>
       <p class="section-lede">例外は許容できますが、理由を明示できる場合に限ります。</p>
     </div>
@@ -506,16 +572,42 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     </div>
   </section>
 
-  <!-- ============ 09 BACKGROUND ============ -->
+  <!-- ============ 10 BACKGROUND ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">09 · Background</p>
+      <p class="section-num">10 · Background</p>
       <h2 class="section-title">設計の背景</h2>
     </div>
     <div class="background-text">
       <p>米国株投資が好きで、Claude にリサーチレポートを書かせる場面が多いです。出力はいつも既定のドキュメント風で、灰色で平板、セッションごとにレイアウトが変わる。構成は追いづらく書式は古臭く、読み続ける気になれませんでした。書体、配色、余白をひとつずつ直していき、読んでいて心地よいページに仕上げました。</p>
       <p>その後「あなたの知らない Agent：原理、アーキテクチャとエンジニアリング実践」の発表をすることになりました。すでに原稿があったのでスライドを一から作る気にならず、Claude Design で自分のスタイルのまま組版し、何度も調整を繰り返して、ようやく納得のいく仕上がりになりました。inline SVG 図表、暖色パレットの統一、編集リズムの引き締めを加え、よく使う文書形式をすべてカバーするまで育ったので、このプロセスをさらに抽象化して kami にしました。どのエージェントに渡しても安心して出せる、静かなデザインシステムです。</p>
     </div>
+  </section>
+
+  <!-- ============ 11 FAQ ============ -->
+  <section>
+    <div class="section-head">
+      <p class="section-num">11 · よくある質問</p>
+      <h2 class="section-title">FAQ</h2>
+    </div>
+    <dl class="faq">
+      <div class="faq-pair">
+        <dt>Kamiとは？</dt>
+        <dd>AIエージェント向けのドキュメントデザインシステムです。単一アクセントカラー、serif階層、あたたかなパーチメントキャンバス。LLMエージェントに指示を出すだけで安定したレイアウトが返ってきます。Claude DesignやGPT Canvasなどの画像レンダラーへのビジュアルブリーフとしても使えます。</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>どんなドキュメントを作れますか？</dt>
+        <dd>8種類のドキュメント：ワンページャー、長文ドキュメント、レター、ポートフォリオ、履歴書、スライド、個別株レポート、変更履歴。加えて14種のインラインSVG図表で視覚的な説明も可能です。出力はHTMLで、PDF、PNG、スライドに変換できます。</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>セットアップ方法は？</dt>
+        <dd>Claude Code：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami -a claude-code -g -y</code>。プラグインマーケットプレイス経由のインストールは Claude Code 2.1.136-2.1.138 で一時的に影響を受けています。汎用エージェント：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami -a '*' -g -y</code>。Claude Desktop：GitHub Releasesからkami.zipをダウンロードし、カスタマイズ &gt; スキルでアップロード。</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>対応言語は？</dt>
+        <dd>英語、中国語、日本語。各言語に専用のserifフォントを使用：英語はCharter、中国語はTsangerJinKai02、日本語はYuMincho。字間、行高、フォントサイズは言語ごとに印刷品質レベルで調整されています。</dd>
+      </div>
+    </dl>
   </section>
 
   <!-- ============ FOOTER ============ -->

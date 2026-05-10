@@ -54,6 +54,8 @@
     font-family: var(--serif);
     font-size: 10.5pt;
     line-height: 1.55;
+    widows: 3;
+    orphans: 3;
   }
 
   strong { font-weight: 500; }
@@ -94,6 +96,7 @@
     color: var(--stone);
     margin-top: 6pt;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   /* SECTIONS */
@@ -117,7 +120,7 @@
     break-after: avoid;
   }
 
-  p { margin: 0 0 8pt 0; line-height: 1.55; }
+  p { margin: 0 0 8pt 0; line-height: 1.55; widows: 2; orphans: 2; }
 
   /* CHANGE LIST */
   ol.changes {
@@ -168,7 +171,7 @@
     margin-top: 16pt;
     padding: 10pt 14pt;
     background: var(--ivory);
-    border: 0.5pt solid var(--border);
+    border-left: 1.4pt solid var(--brand);
     border-radius: 4pt;
     font-size: 10pt;
     line-height: 1.55;

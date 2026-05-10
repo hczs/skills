@@ -21,24 +21,22 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from shared import COOL_GRAY_BLOCKLIST, ROOT, TEMPLATES, TOKENS_FILE
+from shared import (
+    COOL_GRAY_BLOCKLIST,
+    PARCHMENT_RGB as SHARED_PARCHMENT_RGB,
+    ROOT,
+    TEMPLATES,
+    TOKENS_FILE,
+    configure_weasyprint_runtime,
+    stabilize_targets,
+)
 
 PROFILES_FILE = ROOT / "references" / "stabilizer_profiles.json"
 DEFAULT_OUT_DIR = ROOT / "dist" / "stabilized"
 
 # HTML targets only. Diagrams/slides are intentionally excluded from stabilize v0.
-HTML_TARGETS: dict[str, tuple[str, int]] = {
-    "one-pager": ("one-pager.html", 1),
-    "letter": ("letter.html", 1),
-    "long-doc": ("long-doc.html", 9),
-    "portfolio": ("portfolio.html", 8),
-    "resume": ("resume.html", 2),
-    "one-pager-en": ("one-pager-en.html", 1),
-    "letter-en": ("letter-en.html", 1),
-    "long-doc-en": ("long-doc-en.html", 9),
-    "portfolio-en": ("portfolio-en.html", 8),
-    "resume-en": ("resume-en.html", 2),
-}
+# Sourced from shared.HTML_TEMPLATES so build.py and stabilize.py never drift.
+HTML_TARGETS: dict[str, tuple[str, int]] = stabilize_targets()
 
 STYLE_BLOCK_RE = re.compile(r"(<style>\s*)(?P<css>.*?)(\s*</style>)", re.DOTALL | re.IGNORECASE)
 ROOT_BLOCK_RE = re.compile(r"(^[ \t]*:root[ \t]*\{)(?P<body>.*?)(^[ \t]*\})", re.DOTALL | re.MULTILINE)
@@ -60,7 +58,7 @@ PAGE_MARGIN_MM_RE = re.compile(
     re.IGNORECASE,
 )
 
-PARCHMENT_RGB = (245, 244, 237)
+PARCHMENT_RGB = SHARED_PARCHMENT_RGB
 
 
 @dataclass
@@ -394,6 +392,7 @@ def tighten_page_margin(
 
 
 def count_pages(html: str, base_dir: Path) -> int:
+    configure_weasyprint_runtime()
     try:
         from weasyprint import HTML
         from pypdf import PdfReader

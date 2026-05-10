@@ -242,6 +242,85 @@ def quote_slide(prs, quote, source):
     return s
 
 
+def comparison_slide(prs, eyebrow, left_title, left_items, right_title, right_items, page_num=None):
+    """对比页：左右两栏，竖线分隔，左侧降调，右侧全色
+    left_items / right_items: list of str (最多 4 条)
+    """
+    s = blank_slide(prs)
+    add_text(s, eyebrow,
+             Inches(1.2), Inches(0.6), Inches(10), Inches(0.4),
+             font=SANS, size=12, color=STONE)
+    # 分隔竖线（居中）
+    divider = s.shapes.add_connector(1,
+        Inches(6.67), Inches(1.0),
+        Inches(6.67), Inches(6.8))
+    divider.line.color.rgb = BORDER
+    divider.line.width = Pt(1)
+    # 左栏标题（降调）
+    add_text(s, left_title,
+             Inches(1.2), Inches(1.2), Inches(5), Inches(0.8),
+             font=SERIF, size=22, color=OLIVE)
+    # 右栏标题（全色）
+    add_text(s, right_title,
+             Inches(7.0), Inches(1.2), Inches(5), Inches(0.8),
+             font=SERIF, size=22, color=NEAR_BLACK)
+    # 分隔线
+    add_line(s, Inches(1.2), Inches(2.2), Inches(11.5), weight_pt=0.5)
+    # 左栏条目（降调）
+    for i, item in enumerate(left_items[:4]):
+        add_text(s, item,
+                 Inches(1.2), Inches(2.6 + i * 0.9), Inches(4.9), Inches(0.7),
+                 font=SANS, size=17, color=STONE)
+    # 右栏条目（全色）
+    for i, item in enumerate(right_items[:4]):
+        add_text(s, item,
+                 Inches(7.0), Inches(2.6 + i * 0.9), Inches(5.2), Inches(0.7),
+                 font=SANS, size=17, color=DARK_WARM)
+    if page_num is not None:
+        add_text(s, f" - {page_num:02d}",
+                 Inches(11.5), Inches(6.9), Inches(1.5), Inches(0.3),
+                 font=SANS, size=11, color=STONE,
+                 align=PP_ALIGN.RIGHT)
+    return s
+
+
+def pipeline_slide(prs, eyebrow, title, steps, page_num=None):
+    """流程步骤页：01/02/03 序号 + 步骤标题 + 步骤描述
+    steps: list of (step_title, step_desc)，最多 4 步
+    """
+    s = blank_slide(prs)
+    add_text(s, eyebrow,
+             Inches(1.2), Inches(0.6), Inches(10), Inches(0.4),
+             font=SANS, size=12, color=STONE)
+    add_text(s, title,
+             Inches(1.2), Inches(1.1), Inches(11), Inches(0.9),
+             font=SERIF, size=30, color=NEAR_BLACK)
+    add_line(s, Inches(1.2), Inches(2.15), Inches(11), weight_pt=0.5)
+
+    n = len(steps[:4])
+    step_w = Inches(11.5 / n)
+    for i, (step_title, step_desc) in enumerate(steps[:4]):
+        x = Inches(1.0) + step_w * i
+        # 序号
+        add_text(s, f"0{i+1}",
+                 x, Inches(2.5), step_w, Inches(0.8),
+                 font=SERIF, size=40, color=BRAND)
+        # 步骤标题
+        add_text(s, step_title,
+                 x, Inches(3.45), step_w - Inches(0.2), Inches(0.6),
+                 font=SERIF, size=19, color=NEAR_BLACK)
+        # 步骤描述
+        add_text(s, step_desc,
+                 x, Inches(4.15), step_w - Inches(0.2), Inches(2.2),
+                 font=SANS, size=15, color=OLIVE)
+    if page_num is not None:
+        add_text(s, f" - {page_num:02d}",
+                 Inches(11.5), Inches(6.9), Inches(1.5), Inches(0.3),
+                 font=SANS, size=11, color=STONE,
+                 align=PP_ALIGN.RIGHT)
+    return s
+
+
 def ending_slide(prs, message, contact):
     """结束页"""
     s = blank_slide(prs)
@@ -305,6 +384,26 @@ def main():
     quote_slide(prs,
         quote="好的设计是尽可能少的设计。",
         source="Dieter Rams")
+
+    # 8. 对比页
+    comparison_slide(prs,
+        eyebrow="{{章节 · 对比}}",
+        left_title="{{旧方案}}",
+        left_items=["{{对比点 A}}", "{{对比点 B}}", "{{对比点 C}}"],
+        right_title="{{新方案}}",
+        right_items=["{{改善点 A}}", "{{改善点 B}}", "{{改善点 C}}"],
+        page_num=8)
+
+    # 9. 流程步骤页
+    pipeline_slide(prs,
+        eyebrow="{{章节 · 流程}}",
+        title="{{核心流程标题}}",
+        steps=[
+            ("{{步骤 1}}", "{{步骤 1 的说明文字，控制在两行内。}}"),
+            ("{{步骤 2}}", "{{步骤 2 的说明文字，控制在两行内。}}"),
+            ("{{步骤 3}}", "{{步骤 3 的说明文字，控制在两行内。}}"),
+        ],
+        page_num=9)
 
     # 7. 结束
     ending_slide(prs,

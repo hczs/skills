@@ -2,11 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Kami · Design System</title>
+  <title>Kami: Document Design System for AI Agents</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Kami - a warm parchment design system for AI-assisted professional documents, shaped by one accent color, serif-led hierarchy, and editorial whitespace.">
   <link rel="icon" href="https://gw.alipayobjects.com/zos/k/vl/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="canonical" href="https://kami.tw93.fun/">
+  <link rel="alternate" hreflang="en" href="https://kami.tw93.fun/">
+  <link rel="alternate" hreflang="zh-CN" href="https://kami.tw93.fun/index-zh.html">
+  <link rel="alternate" hreflang="ja" href="https://kami.tw93.fun/index-ja.html">
+  <link rel="alternate" hreflang="x-default" href="https://kami.tw93.fun/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kami: Document Design System for AI Agents">
+  <meta property="og:description" content="Kami - a warm parchment design system for AI-assisted professional documents, shaped by one accent color, serif-led hierarchy, and editorial whitespace.">
+  <meta property="og:url" content="https://kami.tw93.fun/">
+  <meta property="og:image" content="https://gw.alipayobjects.com/zos/k/vl/logo.svg">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kami: Document Design System for AI Agents">
+  <meta name="twitter:description" content="Kami - a warm parchment design system for AI-assisted professional documents, shaped by one accent color, serif-led hierarchy, and editorial whitespace.">
+  <meta name="twitter:image" content="https://gw.alipayobjects.com/zos/k/vl/logo.svg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Kami",
+    "description": "A warm parchment design system for AI-assisted professional documents. One accent color, serif-led hierarchy, and editorial whitespace.",
+    "url": "https://kami.tw93.fun",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Any",
+    "author": {
+      "@type": "Person",
+      "name": "Tw93",
+      "url": "https://tw93.fun",
+      "sameAs": ["https://github.com/tw93", "https://twitter.com/HiTw93", "https://tw93.fun", "https://weekly.tw93.fun", "https://yobi.tw93.fun"]
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Kami?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A constraint-based design system for AI-generated documents. One accent color, serif-led hierarchy, warm parchment canvas. It also doubles as a visual brief for image renderers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What can Kami produce?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Eight document types: one-pagers, long documents, letters, portfolios, resumes, slides, equity reports, and changelogs. Plus 14 inline SVG diagram types. Outputs are HTML exportable to PDF, PNG, or slide decks."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I set up Kami?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Claude Code: npx skills add tw93/kami -a claude-code -g -y. The plugin marketplace path is temporarily affected in Claude Code 2.1.136-2.1.138. Generic agents: npx skills add tw93/kami -a '*'. Claude Desktop: download kami.zip from GitHub Releases and upload it in Skills settings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What languages does Kami support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "English, Chinese, and Japanese. Each uses a dedicated serif font: Charter, TsangerJinKai02, and YuMincho respectively, with per-language typographic tuning."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <nav class="lang-switch"><a href="./index.html" class="active">EN</a><a href="./index-zh.html">中</a><a href="./index-ja.html">日</a></nav>
@@ -48,22 +125,22 @@
     </div>
     <div class="demo-grid">
       <div class="demo-card">
-        <a href="assets/demos/demo-tesla.pdf" target="_blank"><img src="assets/demos/demo-tesla.png" alt="Tesla company one-pager"></a>
-        <p class="demo-title">One-Pager</p>
-        <p class="demo-desc">Tesla company profile, single A4</p>
+        <a href="assets/demos/demo-tesla.pdf" target="_blank"><img src="assets/demos/demo-tesla.png" alt="Tesla equity report" loading="lazy" decoding="async"></a>
+        <p class="demo-title">Equity Report</p>
+        <p class="demo-desc">Tesla Q1 2026 earnings analysis</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-musk-resume.pdf" target="_blank"><img src="assets/demos/demo-musk-resume.png" alt="Musk resume"></a>
+        <a href="assets/demos/demo-musk-resume.pdf" target="_blank"><img src="assets/demos/demo-musk-resume.png" alt="Musk resume" loading="lazy" decoding="async"></a>
         <p class="demo-title">Resume</p>
         <p class="demo-desc">Founder CV, 2 pages</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-kaku.pdf" target="_blank"><img src="assets/demos/demo-kaku.png" alt="Kaku portfolio"></a>
+        <a href="assets/demos/demo-kaku.pdf" target="_blank"><img src="assets/demos/demo-kaku.png" alt="Kaku portfolio" loading="lazy" decoding="async"></a>
         <p class="demo-title">Portfolio</p>
         <p class="demo-desc">Kaku terminal portfolio, Japanese, 7 pages</p>
       </div>
       <div class="demo-card">
-        <a href="assets/demos/demo-agent-slides.pdf" target="_blank"><img src="assets/demos/demo-agent-slides.png" alt="Agent slides"></a>
+        <a href="assets/demos/demo-agent-slides.pdf" target="_blank"><img src="assets/demos/demo-agent-slides.png" alt="Agent slides" loading="lazy" decoding="async"></a>
         <p class="demo-title">Slides</p>
         <p class="demo-desc">Agent keynote, 6 slides</p>
       </div>
@@ -82,7 +159,8 @@ npx skills add tw93/kami -a claude-code -g -y
 
 <span class="c"># Codex</span>
 npx skills add tw93/kami -a codex -g -y</pre>
-    <p class="section-lede" style="font-size:14px;">Claude Desktop: download <a href="https://cdn.jsdelivr.net/gh/tw93/kami@main/dist/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a>, then upload it in Customize &gt; Skills &gt; "+" &gt; Create skill.</p>
+    <p class="section-lede" style="font-size:14px;">Claude Code plugin marketplace install is temporarily affected in versions 2.1.136-2.1.138; use the Claude Code command above until upstream fixes root skill path validation.</p>
+    <p class="section-lede" style="font-size:14px;">Claude Desktop: download <a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a>, then upload it in Customize &gt; Skills &gt; "+" &gt; Create skill.</p>
   </section>
 
   <!-- ============ 02 MANIFESTO ============ -->
@@ -345,7 +423,7 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     <div class="section-head">
       <p class="section-num">07 · Diagrams</p>
       <h2 class="section-title">Inline Charts</h2>
-      <p class="section-lede">Twelve inline SVG diagram types covering architecture, process, and data chart scenarios. Tell Claude which type you need and it embeds directly into the document, colors and fonts following the Kami design language.</p>
+      <p class="section-lede">Fourteen inline SVG diagram types covering architecture, process, and data chart scenarios. Tell Claude which type you need and it embeds directly into the document, colors and fonts following the Kami design language.</p>
     </div>
     <div class="chart-showcase">
       <!-- Architecture mini -->
@@ -461,10 +539,10 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     </table>
   </section>
 
-  <!-- ============ 08 ANTI ============ -->
+  <!-- ============ 09 ANTI ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">08 · Anti-Patterns</p>
+      <p class="section-num">09 · Anti-Patterns</p>
       <h2 class="section-title">What to Avoid</h2>
       <p class="section-lede">Exceptions are allowed, but the reason should be explicit.</p>
     </div>
@@ -505,16 +583,42 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     </div>
   </section>
 
-  <!-- ============ 09 BACKGROUND ============ -->
+  <!-- ============ 10 BACKGROUND ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">09 · Background</p>
+      <p class="section-num">10 · Background</p>
       <h2 class="section-title">Design Origins</h2>
     </div>
     <div class="background-text">
       <p>I like investing in US equities and ask Claude to write research reports all the time. Every output landed in the same default-doc look: gray, flat, a different layout each session. The structure was hard to scan, the formatting felt dated, and nothing about the page made me want to keep reading. So I started fixing the typography, the palette, the spacing, one rule at a time, until the report became a page I actually enjoyed.</p>
       <p>Later I needed to present "The Agent You Don't Know: Principles, Architecture and Engineering Practice." I already had the document and didn't want to build slides from scratch, so I used Claude Design to lay it out in my own style, tweaked it round after round, and eventually got it to a place I was happy with. That process added inline SVG charts, a unified warm palette, and a tighter editorial rhythm. It kept growing until it covered every document I regularly ship, so I kept abstracting the process, and it became kami: one quiet design system I can hand to any agent and trust the output.</p>
     </div>
+  </section>
+
+  <!-- ============ 11 FAQ ============ -->
+  <section>
+    <div class="section-head">
+      <p class="section-num">11 · Questions</p>
+      <h2 class="section-title">FAQ</h2>
+    </div>
+    <dl class="faq">
+      <div class="faq-pair">
+        <dt>What is Kami?</dt>
+        <dd>A constraint-based design system for AI-generated documents. One accent color, serif-led hierarchy, warm parchment canvas. Give any LLM agent a brief, get a composed layout back. It also doubles as a visual brief you can hand to image renderers like Claude Design or GPT Canvas.</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>What can it produce?</dt>
+        <dd>Eight document types: one-pagers, long documents, letters, portfolios, resumes, slides, equity reports, and changelogs. Plus 14 inline SVG diagram types for visual explanations. Outputs are HTML that can be exported to PDF, PNG, or slide decks.</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>How do I set it up?</dt>
+        <dd>Claude Code: <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami -a claude-code -g -y</code>. Plugin marketplace install is temporarily affected in Claude Code 2.1.136-2.1.138. Generic agents like Codex or OpenCode: <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami -a '*' -g -y</code>. Claude Desktop: download kami.zip from GitHub Releases and upload it in Customize &gt; Skills. No slash command needed, the skill auto-triggers from natural requests.</dd>
+      </div>
+      <div class="faq-pair">
+        <dt>What languages does it support?</dt>
+        <dd>English, Chinese, and Japanese. Each language uses a dedicated serif font: Charter for English, TsangerJinKai02 for Chinese, YuMincho for Japanese. Letter-spacing, line-height, and font sizes are tuned per language for print quality. Japanese is a best-effort CJK path with visual QA before delivery.</dd>
+      </div>
+    </dl>
   </section>
 
   <!-- ============ FOOTER ============ -->

@@ -12,6 +12,10 @@ Usage:
     python3 scripts/build.py --check-placeholders path/to/doc.html
     python3 scripts/build.py --check-orphans      # scan example PDFs for orphan text
     python3 scripts/build.py --check-orphans path/to/doc.pdf
+    python3 scripts/build.py --check-density       # warn on pages with >25% trailing whitespace
+    python3 scripts/build.py --check-density path/to/doc.pdf
+    python3 scripts/build.py --check-rhythm       # warn on monotonous slide sequences
+    python3 scripts/build.py --check-rhythm slides slides-en
 """
 from __future__ import annotations
 
@@ -23,29 +27,21 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-from shared import COOL_GRAY_BLOCKLIST, DIAGRAMS, EXAMPLES, ROOT, TEMPLATES, TOKENS_FILE
+from shared import (
+    COOL_GRAY_BLOCKLIST,
+    DIAGRAMS,
+    EXAMPLES,
+    PARCHMENT_RGB,
+    ROOT,
+    TEMPLATES,
+    TOKENS_FILE,
+    build_targets,
+    configure_weasyprint_runtime,
+)
 
 # name -> (source, max_pages). max_pages=0 means no hard check.
-HTML_TARGETS: dict[str, tuple[str, int]] = {
-    # Chinese
-    "one-pager":    ("one-pager.html", 1),
-    "letter":       ("letter.html", 1),
-    "long-doc":     ("long-doc.html", 0),
-    "portfolio":    ("portfolio.html", 0),
-    "resume":       ("resume.html", 2),
-    # English
-    "one-pager-en": ("one-pager-en.html", 1),
-    "letter-en":    ("letter-en.html", 1),
-    "long-doc-en":  ("long-doc-en.html", 0),
-    "portfolio-en": ("portfolio-en.html", 0),
-    "resume-en":    ("resume-en.html", 2),
-    # Equity Report
-    "equity-report":    ("equity-report.html", 3),
-    "equity-report-en": ("equity-report-en.html", 3),
-    # Changelog
-    "changelog":    ("changelog.html", 2),
-    "changelog-en": ("changelog-en.html", 2),
-}
+# Sourced from shared.HTML_TEMPLATES so build.py and stabilize.py never drift.
+HTML_TARGETS: dict[str, tuple[str, int]] = build_targets()
 PPTX_TARGETS: dict[str, str] = {
     "slides":    "slides.py",
     "slides-en": "slides-en.py",
@@ -147,6 +143,7 @@ def set_pdf_metadata(pdf_path: Path, author: str | None = None) -> None:
 
 def build_html(name: str, source: str, max_pages: int,
                src_dir: Path = TEMPLATES) -> bool:
+    configure_weasyprint_runtime()
     try:
         from weasyprint import HTML
         from pypdf import PdfReader
@@ -385,6 +382,19 @@ def _pdf_font_names(pdf_path: Path) -> set[str]:
         return set()
 
 
+def _check_font_sources(html_path: Path) -> list[str]:
+    """Return list of local @font-face src files that are missing on disk."""
+    text = html_path.read_text(encoding="utf-8", errors="replace")
+    missing: list[str] = []
+    for url in re.findall(r"""url\(["']?([^"')]+)["']?\)""", text):
+        if url.startswith(("http://", "https://", "data:", "#")):
+            continue
+        resolved = (html_path.parent / url).resolve()
+        if not resolved.exists():
+            missing.append(url)
+    return missing
+
+
 def verify_target(name: str, source: str, max_pages: int, src_dir: Path) -> list[str]:
     issues: list[str] = []
     src = src_dir / source
@@ -392,6 +402,7 @@ def verify_target(name: str, source: str, max_pages: int, src_dir: Path) -> list
         issues.append(f"source not found: {src}")
         return issues
 
+    configure_weasyprint_runtime()
     try:
         from weasyprint import HTML
         from pypdf import PdfReader
@@ -401,6 +412,15 @@ def verify_target(name: str, source: str, max_pages: int, src_dir: Path) -> list
 
     EXAMPLES.mkdir(parents=True, exist_ok=True)
     out = EXAMPLES / f"{name}.pdf"
+
+    # Warn about missing local font files before rendering
+    missing_fonts = _check_font_sources(src)
+    if missing_fonts:
+        for mf in missing_fonts:
+            print(f"  [FONT MISS] {name}: {mf} not found")
+        print(f"  [FONT MISS] To fix: bash scripts/ensure-fonts.sh")
+        print(f"  [FONT MISS] Or install fallback: brew install --cask font-source-han-serif-sc")
+
     HTML(str(src), base_url=str(src.parent)).write_pdf(str(out))
 
     # Set PDF metadata (only replaces placeholders, preserves filled values)
@@ -410,7 +430,11 @@ def verify_target(name: str, source: str, max_pages: int, src_dir: Path) -> list
     # page count check
     n = len(PdfReader(str(out)).pages)
     if max_pages and n > max_pages:
-        issues.append(f"page overflow: {n} pages (limit {max_pages})")
+        over = n - max_pages
+        hint = ""
+        if "resume" in name and over == 1:
+            hint = '; add class="resume--dense" to <body> or tighten .proj-text line-height to 1.38'
+        issues.append(f"page overflow: {n} pages (limit {max_pages}){hint}")
 
     # font check
     embedded = _pdf_font_names(out)
@@ -529,11 +553,15 @@ def check_orphans(paths: list[str]) -> int:
             return 2
 
     total = 0
+    missing = 0
+    scanned = 0
     for raw in paths:
         path = Path(raw)
         if not path.exists():
             print(f"ERROR: {raw}: not found")
+            missing += 1
             continue
+        scanned += 1
         doc = fitz.open(str(path))
         rel = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
         for page_num in range(len(doc)):
@@ -552,11 +580,122 @@ def check_orphans(paths: list[str]) -> int:
                     print(f"  {rel} p{page_num + 1}: orphan: \"{last}\" ({len(words)} word(s), {len(last)} chars)")
         doc.close()
 
-    if total == 0:
-        print(f"OK: no orphans found across {len(paths)} PDF(s)")
+    if scanned == 0:
+        print(f"ERROR: no PDFs scanned ({missing} missing)")
+        return 2
+
+    if total == 0 and missing == 0:
+        print(f"OK: no orphans found across {scanned} PDF(s)")
         return 0
 
-    print(f"\n{total} orphan(s) found across {len(paths)} PDF(s)")
+    if total:
+        print(f"\n{total} orphan(s) found across {scanned} PDF(s)")
+    if missing:
+        print(f"{missing} input(s) missing")
+    return 1
+
+
+# ------------------------- density check -------------------------
+
+# Parchment background RGB for pixel comparison (sourced from shared.PARCHMENT_RGB).
+_BG_R, _BG_G, _BG_B = PARCHMENT_RGB
+_BG_TOLERANCE = 10
+
+
+def _last_content_y(samples: bytes, w: int, h: int, stride: int, n: int) -> int:
+    """Return the highest y row index that contains non-parchment content.
+
+    Uses numpy when available (vectorized scan, ~50-100x faster on multi-page
+    PDFs); falls back to a pure Python loop otherwise. Both paths sample every
+    fourth column for parity, so the result is identical.
+    """
+    try:
+        import numpy as np
+    except ImportError:
+        last_y = 0
+        for y in range(h - 1, -1, -1):
+            row_start = y * stride
+            is_bg = True
+            for x in range(0, w, 4):
+                offset = row_start + x * n
+                if (abs(samples[offset] - _BG_R) > _BG_TOLERANCE
+                        or abs(samples[offset + 1] - _BG_G) > _BG_TOLERANCE
+                        or abs(samples[offset + 2] - _BG_B) > _BG_TOLERANCE):
+                    is_bg = False
+                    break
+            if not is_bg:
+                last_y = y
+                break
+        return last_y
+
+    arr = np.frombuffer(samples, dtype=np.uint8).reshape((h, stride))
+    pixels = arr[:, : w * n].reshape((h, w, n))
+    rgb = pixels[:, ::4, :3].astype(np.int16)
+    bg = np.array([_BG_R, _BG_G, _BG_B], dtype=np.int16)
+    row_is_bg = (np.abs(rgb - bg).max(axis=2) <= _BG_TOLERANCE).all(axis=1)
+    non_bg = np.where(~row_is_bg)[0]
+    return int(non_bg[-1]) if non_bg.size else 0
+
+
+def check_density(paths: list[str]) -> int:
+    """Scan PDF pages for sparse content (large trailing whitespace from
+    break-inside:avoid pushing content to the next page)."""
+    try:
+        import fitz  # PyMuPDF
+    except ImportError:
+        print("ERROR: PyMuPDF required: pip install pymupdf --break-system-packages")
+        return 2
+
+    if not paths:
+        if EXAMPLES.exists():
+            paths = [str(p) for p in sorted(EXAMPLES.glob("*.pdf"))]
+        if not paths:
+            print("ERROR: no PDF files to scan")
+            return 2
+
+    warnings = 0
+    missing = 0
+    scanned = 0
+    for raw in paths:
+        path = Path(raw)
+        if not path.exists():
+            print(f"ERROR: {raw}: not found")
+            missing += 1
+            continue
+        scanned += 1
+        doc = fitz.open(str(path))
+        rel = path.relative_to(ROOT) if path.is_relative_to(ROOT) else path
+        for page_num in range(len(doc)):
+            if page_num == 0:
+                continue
+            page = doc[page_num]
+            pix = page.get_pixmap(dpi=36)
+            w, h = pix.width, pix.height
+            if h == 0:
+                continue
+            last_content_y = _last_content_y(pix.samples, w, h, pix.stride, pix.n)
+
+            empty = (h - last_content_y) / h
+            if empty > 0.50:
+                print(f"  SPARSE: {rel} p{page_num + 1}: {empty:.0%} trailing whitespace")
+                warnings += 1
+            elif empty > 0.25:
+                print(f"  WARN: {rel} p{page_num + 1}: {empty:.0%} trailing whitespace")
+                warnings += 1
+        doc.close()
+
+    if scanned == 0:
+        print(f"ERROR: no PDFs scanned ({missing} missing)")
+        return 2
+
+    if warnings == 0 and missing == 0:
+        print(f"OK: no density issues across {scanned} PDF(s)")
+        return 0
+
+    if warnings:
+        print(f"\n{warnings} density warning(s) across {scanned} PDF(s)")
+    if missing:
+        print(f"{missing} input(s) missing")
     return 1
 
 
@@ -570,6 +709,12 @@ BORDER_VAR_USE = re.compile(r"border(?:-\w+)?\s*:\s*[^;]*var\s*\(\s*--([\w-]+)",
 LINE_HEIGHT_LOOSE = re.compile(r"line-height\s*:\s*1\.[6-9]\d*", re.IGNORECASE)
 UNICODE_ARROW = re.compile(r"→")  # U+2192; should not appear in EN template body
 HEX_ANY = re.compile(r"#[0-9a-fA-F]{3,6}\b")
+# Thin closed border: border shorthand (not single-side) with sub-1pt width — pitfall #2
+THIN_CLOSED_BORDER = re.compile(
+    r"border(?!-(?:left|right|top|bottom))\s*:\s*[^;]*0\.\d+pt",
+    re.IGNORECASE,
+)
+BORDER_RADIUS_PROP = re.compile(r"border-radius\s*:", re.IGNORECASE)
 
 
 @dataclass
@@ -596,9 +741,19 @@ def scan_file(path: Path) -> list[Finding]:
     is_en = path.name.endswith("-en.html")
 
     # Pass 2: per-line rule checks
+    is_python = path.suffix == ".py"
     for i, raw in enumerate(lines, start=1):
         line = raw.strip()
-        if not line or line.startswith("//") or line.startswith("#"):
+        if not line:
+            continue
+        # Skip comment lines. Note: '#' alone is NOT a CSS or HTML comment; it
+        # is the start of a CSS id selector (e.g. `#hero-bg { … }`) or part of
+        # a hex literal. Only treat '#' as a comment when scanning Python.
+        if line.startswith("//"):
+            continue
+        if line.startswith("<!--"):
+            continue
+        if is_python and line.startswith("#"):
             continue
 
         if RGBA_BG_DIRECT.search(raw):
@@ -636,6 +791,34 @@ def scan_file(path: Path) -> list[Finding]:
             if h in COOL_GRAY_BLOCKLIST:
                 findings.append(Finding(path, i, "cool-gray",
                                         f"{h} is a cool / neutral gray, use warm undertone"))
+
+    # Pass 3: thin-border-radius block scan (pitfall #2 double-ring).
+    # For each thin closed border line, scan backward to the block open and
+    # forward to the block close, checking for border-radius in the same block.
+    for i, raw in enumerate(lines):
+        if not THIN_CLOSED_BORDER.search(raw):
+            continue
+        if "skip-thin-border-radius" in raw:
+            continue
+        found = False
+        # Scan backward; stop at { or } (entering/leaving a block).
+        for j in range(i - 1, max(0, i - 6) - 1, -1):
+            if "{" in lines[j] or "}" in lines[j]:
+                break
+            if BORDER_RADIUS_PROP.search(lines[j]):
+                found = True
+                break
+        # Scan forward; stop at } (leaving the block).
+        if not found:
+            for j in range(i + 1, min(len(lines), i + 6)):
+                if "}" in lines[j]:
+                    break
+                if BORDER_RADIUS_PROP.search(lines[j]):
+                    found = True
+                    break
+        if found:
+            findings.append(Finding(path, i + 1, "thin-border-radius",
+                "thin border (<1pt) with border-radius -- pitfall #2 double-ring risk"))
     return findings
 
 
@@ -673,6 +856,94 @@ def check_all(verbose: bool) -> int:
     return 1
 
 
+# ------------------------- rhythm check -------------------------
+
+# Layout functions that count as "divider" slides (break monotony).
+_DIVIDER_FUNCS = {"chapter_slide"}
+# Layout functions that count as "density variation" slides.
+_DENSITY_VARIATION_FUNCS = {"quote_slide", "metrics_slide"}
+# Layout function call pattern in slides.py source.
+_SLIDE_CALL = re.compile(r"^\s*(\w+_slide)\s*\(")
+
+
+def _parse_slide_sequence(src: Path) -> list[str]:
+    """Return the ordered list of slide-function names called in main()."""
+    text = src.read_text(encoding="utf-8", errors="replace")
+    in_main = False
+    sequence: list[str] = []
+    for line in text.splitlines():
+        if re.match(r"^def main\s*\(", line):
+            in_main = True
+            continue
+        if in_main and re.match(r"^def \w", line):
+            break
+        if in_main:
+            m = _SLIDE_CALL.match(line)
+            if m:
+                sequence.append(m.group(1))
+    return sequence
+
+
+def check_rhythm(targets: list[str]) -> int:
+    """Scan slide templates for monotony: too many consecutive content_slides,
+    missing dividers, and missing density variation.
+
+    Usage: python3 scripts/build.py --check-rhythm [slides] [slides-en]
+    When no targets are given, checks all PPTX_TARGETS.
+    """
+    names = targets if targets else list(PPTX_TARGETS.keys())
+    failures = 0
+
+    for name in names:
+        source = PPTX_TARGETS.get(name)
+        if source is None:
+            print(f"ERROR: {name}: not a known slides target")
+            failures += 1
+            continue
+        src = TEMPLATES / source
+        if not src.exists():
+            print(f"ERROR: {name}: source not found ({src})")
+            failures += 1
+            continue
+
+        seq = _parse_slide_sequence(src)
+        if not seq:
+            print(f"ERROR: {name}: no slide calls found in main() (deck unparseable)")
+            failures += 1
+            continue
+
+        issues: list[str] = []
+
+        # Rule 1: no run of more than 5 consecutive content_slides.
+        run = 0
+        max_run = 0
+        for fn in seq:
+            if fn == "content_slide":
+                run += 1
+                max_run = max(max_run, run)
+            else:
+                run = 0
+        if max_run > 5:
+            issues.append(f"longest content_slide run is {max_run} (limit 5)")
+
+        # Rule 2: decks >= 12 slides need at least one chapter_slide divider.
+        if len(seq) >= 12 and not any(fn in _DIVIDER_FUNCS for fn in seq):
+            issues.append(f"{len(seq)} slides with no chapter_slide divider")
+
+        # Rule 3: deck must contain at least one density-variation slide.
+        if not any(fn in _DENSITY_VARIATION_FUNCS for fn in seq):
+            issues.append("no quote_slide or metrics_slide for density variation")
+
+        if issues:
+            for issue in issues:
+                print(f"WARN: {name}: {issue}")
+            failures += 1
+        else:
+            print(f"OK: {name}: rhythm ok ({len(seq)} slides, max run {max_run})")
+
+    return 0 if failures == 0 else 1
+
+
 # ------------------------- entry -------------------------
 
 def main(argv: list[str]) -> int:
@@ -695,8 +966,13 @@ def main(argv: list[str]) -> int:
         return verify_all(target)
     if args[0] == "--check-orphans":
         return check_orphans(args[1:])
+    if args[0] == "--check-density":
+        return check_density(args[1:])
     if args[0] in ("--check-placeholders", "--verify-filled"):
         return check_placeholders(args[1:])
+    if args[0] == "--check-rhythm":
+        slide_targets = [a for a in args[1:] if not a.startswith("-")]
+        return check_rhythm(slide_targets)
     return build_single(args[0])
 
 

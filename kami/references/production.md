@@ -67,6 +67,19 @@ font-family: "YuMincho", "Yu Mincho", "Hiragino Mincho ProN",
 
 **Claude Desktop skill ZIPs do not bundle large Chinese font files**: `TsangerJinKai02-W04.ttf` and `TsangerJinKai02-W05.ttf` are close to 19MB each and can make Claude.ai / Desktop skill upload or execution time out. Release ZIPs must be generated with `scripts/package-skill.sh`, which excludes both TTF files. Templates still keep local-first and jsDelivr fallback `@font-face` paths.
 
+**Standalone HTML export** (sending a filled HTML file to someone else): this is not guaranteed to work outside the project tree. If the recipient cannot set up the font environment, use the PDF output instead.
+
+If you do need to share HTML: the font file and the HTML must live in the same directory, and the `@font-face src` must use a bare filename with no path prefix:
+
+```css
+@font-face {
+  font-family: "TsangerJinKai02";
+  src: url("TsangerJinKai02-W04.ttf") format("truetype");
+}
+```
+
+Remove the `../fonts/` prefix that templates use when fonts are in the project tree. The recipient must place the `.ttf` file alongside the `.html` file before running WeasyPrint. When in doubt, deliver the PDF.
+
 ### Page spec
 
 ```css
@@ -188,16 +201,17 @@ English stack on PowerPoint:
 - Serif: `Charter` -> `Georgia` -> `Palatino`
 - Sans: same as serif (single-font-per-page rule)
 
-### Eight standard layouts
+### Nine standard layouts
 
 1. **Cover**: parchment background, centered display title + brand-colored short line + subtitle / author / date
 2. **Contents**: parchment, left-aligned `01  Chapter title` (number serif brand-colored)
 3. **Chapter divider**: full brand ink-blue background, centered white title - the **only** fully chromatic slide in the deck
 4. **Content slide**: eyebrow (serif stone) + core claim (serif near-black) + brand line + body (serif dark-warm)
 5. **Data slide**: top takeaway + 2-4 metric cards (big number serif brand + small label serif olive)
-6. **Comparison**: two columns with a 0.5pt warm-gray divider
-7. **Quote**: parchment, minimal, centered serif quote + `- Source`
-8. **Closing**: parchment, centered "Thank you / Q&A / Contact"
+6. **Comparison**: eyebrow + left column (muted, OLIVE/STONE) vs. right column (full-weight, DARK_WARM/NEAR_BLACK), separated by a 1pt BORDER warm-gray vertical divider. Left = "Before/Old/Problem"; right = "After/New/Solution". Use `comparison_slide()`.
+7. **Pipeline**: eyebrow + title + serif numerals 01/02/03 + step title + step description, laid out in equal-width columns. All steps visible at once (no click-reveal). Use `pipeline_slide()`.
+8. **Quote**: parchment, minimal, centered serif quote + `- Source`
+9. **Closing**: parchment, centered "Thank you / Q&A / Contact"
 
 ### Script skeleton
 
@@ -291,6 +305,7 @@ Project script `scripts/build.py` is the productized version of the three-step l
 python3 scripts/build.py               # all 12 examples
 python3 scripts/build.py resume-en     # one target + page count + fonts
 python3 scripts/build.py --check       # scan for CSS rule violations
+python3 scripts/build.py --check-density       # warn on pages with >25% trailing whitespace
 ```
 
 ### Layout stabilizer (HTML templates)
@@ -330,11 +345,13 @@ If any row fails, fix it before delivery.
 
 ---
 
-## Part 4 · 16 known pitfalls
+## Part 4 · 22 known pitfalls
 
 Every entry below came from a real failure. Check here first when something looks wrong.
 
-### 1. Tag / Badge double-rectangle bug (the worst)
+Severity scale: **(P0)** render-breaking, must fix before delivery. **(P1)** breaks the design contract (rhythm, spec). **(P2)** visible to a careful reader, but not blocking. **(P3)** operational: affects workflow, not visual output.
+
+### 1. (P0) Tag / Badge double-rectangle bug (the worst)
 
 **Symptom**: PDFs show two concentric rectangles on tag backgrounds at zoom - an outer softer one and an inner tighter one. Especially visible on mobile PDF viewers.
 
@@ -367,7 +384,7 @@ Formula: `solid_channel = base + (foreground - base) × alpha`. Different base c
 
 **Aesthetic warning**: gradients work engineering-wise but usually oversell the tag. Priority order: lightest solid (`#EEF2F7`) > standard solid (`#E4ECF5`) > gradient (rarely). If the reader's eye lands on the tag background shape before the text inside - you went too far.
 
-### 2. Thin border + radius = double circle
+### 2. (P0) Thin border + radius = double circle
 
 **Symptom**: `border: 0.4pt solid ...` + `border-radius: 2pt` shows two parallel arcs on zoom.
 
@@ -378,7 +395,7 @@ Formula: `solid_channel = base + (foreground - base) × alpha`. Different base c
 2. Border ≥ 1pt
 3. Drop `border-radius`
 
-### 3. 2-page hard-limit overflow
+### 3. (P1) 2-page hard-limit overflow
 
 For resume, one-pager, and other length-capped docs.
 
@@ -395,7 +412,18 @@ For resume, one-pager, and other length-capped docs.
 
 **Don't**: cut cover / education / timeline structural blocks; cut emphasis (resume becomes flat).
 
-### 4. Font fallback causes page count inconsistency
+**5-project high-density layout** (when content legitimately needs 5 projects on page 1): add `class="resume--dense"` to `<body>`. This activates a built-in CSS variant that applies the following adjustments without touching any content:
+
+| Property | Default | Dense |
+|---|---|---|
+| `body font-size` | 9.2pt | 9pt |
+| `.proj-text line-height` | 1.40 | 1.38 (CN) / 1.40 (EN) |
+| `.tl-body font-size` | 9pt | 8.5pt (CN only) |
+| `.section-title margin-top` | 5mm | 3.5mm |
+
+Apply dense mode only when the 4-project layout already overflows. Do not use it as a default; the visual rhythm is noticeably tighter.
+
+### 4. (P1) Font fallback causes page count inconsistency
 
 **Symptom**: 2 pages locally, 4 pages in CI / on server.
 
@@ -404,15 +432,21 @@ For resume, one-pager, and other length-capped docs.
 **Fix**:
 
 ```bash
-# Put .ttf alongside the HTML
+# Preferred: multi-source download script (retries, size validation)
+bash scripts/ensure-fonts.sh
+
+# Or put .ttf alongside the HTML
 cp TsangerJinKai02-W04.ttf workspace/
 
-# Or system install (Linux)
+# macOS fallback font
+brew install --cask font-source-han-serif-sc
+
+# Linux system install
 apt install fonts-noto-cjk
 mkdir -p ~/.fonts && cp *.ttf ~/.fonts/ && fc-cache -f
 ```
 
-### 5. CJK and Latin crowding (Chinese mode only)
+### 5. (P2) CJK and Latin crowding (Chinese mode only)
 
 **Symptom**: "125.4k GitHub Stars" - k and G feel glued.
 
@@ -430,13 +464,13 @@ mkdir -p ~/.fonts && cp *.ttf ~/.fonts/ && fc-cache -f
 .metric { display: flex; align-items: baseline; gap: 6pt; }
 ```
 
-### 6. Full-width vs half-width spaces (Chinese mode)
+### 6. (P2) Full-width vs half-width spaces (Chinese mode)
 
 - **Between Chinese characters**: U+3000 full-width space + `·` + space
 - **Between Latin words**: half-width space + `·` + space
 - **Mixed**: prefer flex gap, don't hand-type spaces
 
-### 7. Thousands / percent / arrows - be consistent
+### 7. (P2) Thousands / percent / arrows - be consistent
 
 | Use | Avoid |
 |---|---|
@@ -450,7 +484,7 @@ grep -oE '->|->|⟶|⇒' doc.html | sort | uniq -c
 grep -oE '[0-9]{4,}' doc.html | sort -u
 ```
 
-### 8. Too much / too little emphasis
+### 8. (P2) Too much / too little emphasis
 
 - Four or five ink-blue runs in one line -> visual fatigue, no focal point
 - Entire section with none -> flat, no scan handles
@@ -459,7 +493,7 @@ grep -oE '[0-9]{4,}' doc.html | sort -u
 
 Healthy ratio: one emphasis per 80-150 words.
 
-### 9. `height: 100vh` doesn't work
+### 9. (P0) `height: 100vh` doesn't work
 
 **Symptom**: full-bleed cover using `height: 100vh` renders empty.
 
@@ -476,7 +510,7 @@ Healthy ratio: one emphasis per 80-150 words.
 }
 ```
 
-### 10. `break-inside` fails inside flex
+### 10. (P1) `break-inside` fails inside flex
 
 **Symptom**: `.card { break-inside: avoid }` still splits across pages.
 
@@ -494,7 +528,7 @@ Healthy ratio: one emphasis per 80-150 words.
 .card-wrapper { break-inside: avoid; }
 ```
 
-### 11. Hide page number on the first page
+### 11. (P3) Hide page number on the first page
 
 ```css
 @page:first {
@@ -502,7 +536,7 @@ Healthy ratio: one emphasis per 80-150 words.
 }
 ```
 
-### 12. Printed white margin around the page
+### 12. (P2) Printed white margin around the page
 
 **Symptom**: printing produces a white border even though `background` is set.
 
@@ -517,7 +551,7 @@ Healthy ratio: one emphasis per 80-150 words.
 }
 ```
 
-### 13. Blurry images
+### 13. (P2) Blurry images
 
 **Symptom**: images in PDF look soft.
 
@@ -525,7 +559,7 @@ Healthy ratio: one emphasis per 80-150 words.
 
 **Fix**: source images at 2x or 3x.
 
-### 14. Verification loop (catch-all)
+### 14. (P3) Verification loop (catch-all)
 
 ```bash
 python3 -c "from weasyprint import HTML; HTML('doc.html').write_pdf('out.pdf')"
@@ -535,7 +569,7 @@ pdftoppm -png -r 300 out.pdf inspect    # when in doubt
 
 **Not verified = not done.**
 
-### 15. SVG marker `orient="auto"` ignored
+### 15. (P0) SVG marker `orient="auto"` ignored
 
 **Symptom**: SVG arrows using `<marker orient="auto">` or `orient="auto-start-reverse"` all point right (the marker's default drawing direction), regardless of the path's tangent angle.
 
@@ -567,7 +601,7 @@ Chevron templates (tip at endpoint, 8px arm length):
 | up | `M (x-8) (y+8) L x y L (x+8) (y+8)` |
 | right | `M (x-8) (y-8) L x y L (x-8) (y+8)` |
 
-### 16. Slide letter-spacing must be halved
+### 16. (P1) Slide letter-spacing must be halved
 
 **Symptom**: Slide text looks "scattered" or over-spaced when print letter-spacing values (e.g. `letter-spacing: 8px`) are used directly.
 
@@ -582,3 +616,175 @@ Chevron templates (tip at endpoint, 8px arm length):
 /* Slide eyebrow */
 .slide .eyebrow { letter-spacing: 3px; }   /* halved */
 ```
+
+### 17. (P1) Figure SVG `max-height` starves width
+
+**Symptom**: An inline `<svg>` inside `<figure>` sits at less than the page content width, leaving a visible parchment gap on the right while the surrounding title and table run full-width.
+
+**Root cause**: When a figure SVG declares `max-height` without an explicit `width: 100%`, browsers and WeasyPrint preserve the viewBox aspect ratio and shrink width to honor the height cap. For wide viewBoxes (aspect > 1.5) the height cap becomes the binding constraint and width starves.
+
+**Fix**: Always set both width and height behavior. Use `max-height` only as a safety ceiling, never as the primary sizing rule.
+
+```css
+/* avoid */
+figure svg { max-height: 45mm; }
+
+/* use */
+figure svg { width: 100%; height: auto; max-height: 70mm; }
+```
+
+Quick check: if `viewBox` aspect ratio × current `max-height` < page content width, the chart is starved. Bump `max-height` until `aspect × max-height >= content width` or remove the cap.
+
+### 18. (P1) Multi-column metric labels need word-budget discipline
+
+**Symptom**: One or more labels in a 3-4 column metric row wrap to two lines while siblings stay on one line, breaking the baseline rhythm and pushing the value/label out of alignment.
+
+**Root cause**: Equal-flex columns at gap `G` and content width `W` give each column `(W - G·(N-1)) / N` total. After the metric value (typically 12-18mm at 14pt Charter), the label has only what remains - usually 22-28mm for 4 columns at 184mm width.
+
+**Fix**: Plan label text against the available budget before layout. Approximate budget at 9pt Charter:
+
+| Layout | Per-column total | Label budget after value | Soft char limit |
+|---|---|---|---|
+| 4 columns, gap 7mm, content 184mm | ~40.7mm | ~22-26mm | 14-18 chars |
+| 3 columns, gap 7mm, content 184mm | ~56.7mm | ~38-42mm | 24-28 chars |
+| 4 columns, gap 5mm, content 184mm | ~42.7mm | ~24-28mm | 16-20 chars |
+
+When the natural label is longer (e.g. "Falcon launches, lifetime"), trim to the data essential ("Falcon launches"); supporting context belongs in nearby body copy, not in a metric chip.
+
+### 19. (P2) Multi-column body density imbalance
+
+**Symptom**: A row of N parallel body columns (timeline cards, conviction cards, feature blurbs) renders with one column wrapping to one extra line while the others wrap evenly. The rhythm reads broken even when each individual cell looks fine.
+
+**Root cause**: Equal-width columns wrap based on character count, not "ideas". A column with 88 chars next to siblings at 67-81 chars at the same width will spill to one extra line.
+
+**Fix**: Hold body length within ±10 chars across parallel columns of the same width. Rewrite the longest column tighter rather than padding the shorter ones.
+
+```text
+col 1:  67 chars (2 lines)
+col 2:  81 chars (2 lines)
+col 3:  88 chars (3 lines)   <- breaks rhythm
+col 3': 66 chars (2 lines)   <- fixed by trimming "general intelligence" -> "AGI"
+```
+
+### 20. (P0) Demo / template HTML must reference assets inside the kami repo
+
+**Symptom**: Image slot renders as a missing-image placeholder in the PDF; rendered demo PNG looks empty where a screenshot should be.
+
+**Root cause**: An `<img src="../../../sibling-project/asset.jpg">` reaches outside the kami repo. The path resolves on the maintainer's laptop where the sibling project happens to be checked out, but breaks for every other user, breaks the packaged skill ZIP, and breaks any CI that doesn't recreate the maintainer's working tree.
+
+**Fix**: Every image referenced by a demo or template must live under `assets/demos/images/` or `assets/illustrations/`. Copy the source into the kami repo, then reference it with a relative path inside the repo.
+
+```html
+<!-- avoid -->
+<img src="../../../kaku/website/public/shots/kaku-light.webp" alt="...">
+
+<!-- use -->
+<img src="images/kaku-hero.jpg" alt="...">
+```
+
+Quick check before building any demo: `rg 'src="(\.\./|/Users/|file://)' assets/demos/` should return zero matches.
+
+### 21. (P1) Metric row baseline-align breaks when labels wrap
+
+**Symptom**: A horizontal metric row with `display: flex; align-items: baseline` looks fine when every label is one line, but ugly when one label wraps. The big number "10×" sits at the visual top of its column while the multi-line label flows downward; sibling columns with one-line labels look balanced but the wrapped column reads broken.
+
+**Root cause**: `align-items: baseline` aligns each metric to the **first line** of its label. When labels have different line counts, the visible heights differ but the numbers all sit at the same baseline (= top), making the row look uneven.
+
+**Fix**: Stack vertically (`flex-direction: column`). All numbers sit on the same top edge, all labels start at the same y below the numbers, and label wrap only extends each column's bottom — which is invisible on a slide / page.
+
+```css
+/* avoid: breaks visually when one label wraps */
+.metric { display: flex; align-items: baseline; gap: 8pt; }
+
+/* use: vertical stack, number above label */
+.metric { display: flex; flex-direction: column; gap: 6pt; }
+```
+
+This is especially important on slides where metrics often sit on a baseline strip at the bottom of the page; even a single multi-line label among 3 columns breaks the rhythm.
+
+### 22. (P2) Slide bullets: prefer short numerals or `•` over en-dash
+
+**Symptom**: A bulleted list on a slide with `–` (en-dash, U+2013) markers reads heavy and informal, especially at large slide font sizes (12-14pt body). The en-dash is wide and creates a visible gap between marker and text.
+
+**Root cause**: En-dash is a typographic primitive, originally meant for ranges ("1995–1997"), not list markers. At slide scale it looks elongated and informal.
+
+**Fix**: Use either small numerals (`1.`, `2.`, `3.`) or a standard bullet (`•`) in brand color. Numerals are tighter horizontally and signal sequence; bullets are tightest visually and signal "items in any order".
+
+```css
+/* avoid on slides: en-dash reads informal at large font sizes */
+ul.pts li::before { content: "\2013"; }
+
+/* use: numbered, mono digit, brand color */
+ul.pts { counter-reset: pts; }
+ul.pts li { counter-increment: pts; padding-left: 18pt; }
+ul.pts li::before {
+  content: counter(pts) ".";
+  color: var(--brand);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+```
+
+Print docs (long-doc, equity-report) keep the editorial en-dash style; slides switch to numerals.
+
+---
+
+## Part 5 · HTML -> DOCX (pandoc + SVG-to-PNG)
+
+PDF is the delivery format; DOCX is the collaboration format. For proposal / report scenarios where the recipient needs to edit, comment, or forward to their team, ship a `.docx` alongside the PDF.
+
+### Why two-step
+
+`pandoc input.html -o output.docx` looks straightforward, but inline `<svg>` blocks fail Word's OOXML validation. Word treats them as unknown content and either drops them or refuses to open the file. The fix is to bake every SVG to PNG first, swap the `<svg>` blocks for `<img>` tags, then run pandoc.
+
+### Install
+
+```bash
+# macOS
+brew install pandoc librsvg
+
+# Linux
+apt install pandoc librsvg2-bin
+```
+
+### Workflow
+
+```bash
+# 1. Extract every SVG to its own file, ensuring xmlns is set
+python3 - << 'EOF'
+import re
+src = open('input.html').read()
+for i, m in enumerate(re.finditer(r'<svg[^>]*>.*?</svg>', src, re.DOTALL)):
+    svg = m.group(0)
+    if 'xmlns=' not in svg[:200]:
+        svg = svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ', 1)
+    with open(f'/tmp/diagram-{i}.svg', 'w') as f:
+        f.write('<?xml version="1.0"?>\n' + svg)
+EOF
+
+# 2. Rasterize each SVG to a wide PNG
+for f in /tmp/diagram-*.svg; do
+    rsvg-convert "$f" -o "${f%.svg}.png" -w 1600
+done
+
+# 3. Replace each <svg>...</svg> in the HTML with <img src="/tmp/diagram-N.png">
+#    (do this with the same regex iteration that produced the indices above)
+
+# 4. Convert
+pandoc input-with-png.html -o output.docx
+```
+
+### What carries over
+
+| Carries over | Lost |
+|---|---|
+| Headings, body, lists, tables | Grid layouts, custom positioning |
+| Brand color on headings, `<strong>`, `.hl` | Subtle borders and shadows |
+| PNG figures at full width | SVG editability |
+| Page breaks via `<hr class="page-break">` | `@page` margins |
+
+The recipient gets a Word document they can edit text in and replace figures in (drag a new PNG over the existing one). Complex layout differences are expected; the goal is editability, not visual fidelity.
+
+### When not to ship a DOCX
+
+Skip this for resume, one-pager, slides, and portfolio. They are visual artifacts; converting them produces a degraded version with no editability gain. Long-doc / proposal / equity-report are the document types where a DOCX companion has a real audience.

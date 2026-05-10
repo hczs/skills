@@ -52,6 +52,8 @@
     font-size: 9.4pt;
     line-height: 1.42;
     letter-spacing: 0;
+    widows: 3;
+    orphans: 3;
   }
 
   .serif { font-family: var(--serif); }
@@ -128,6 +130,14 @@
     color: var(--brand);
   }
   .metric-label { font-size: 9pt; color: var(--olive); line-height: 1.2; }
+
+  .metrics--stack .metric {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5mm;
+    padding-bottom: 2mm;
+    border-bottom: 0.3pt dotted var(--border);
+  }
 
   /* SECTION TITLE */
   .section-title {
@@ -241,6 +251,8 @@
     border-bottom: 0.3pt dotted var(--border);
     break-inside: avoid;
   }
+  .os-item:last-child,
+  .os-item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
   .os-name {
     font-family: var(--serif);
     font-size: 10.5pt; font-weight: 500;
@@ -355,6 +367,7 @@
   .art-stats, .talk-venue {
     font-size: 9pt; color: var(--stone);
     line-height: 1.4; margin-top: 0.6mm;
+    white-space: nowrap;
   }
   .art-stats .em-brand { color: var(--brand); }
   .art-date, .talk-date {
@@ -428,6 +441,11 @@
   table .total td, .kami-table .total td {
     font-weight: 500; border-top: 1pt solid var(--brand); border-bottom: none; color: var(--near-black);
   }
+
+  /* DENSE VARIANT: add class="resume--dense" to <body> when 5+ projects overflow */
+  body.resume--dense { font-size: 9pt; }
+  body.resume--dense .proj-text { line-height: 1.40; }
+  body.resume--dense .section-title { margin-top: 3.5mm; margin-bottom: 1.5mm; }
 </style>
 </head>
 <body>

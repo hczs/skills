@@ -17,6 +17,7 @@ git ls-files > "$MANIFEST"
 awk '
   /^assets\/fonts\/TsangerJinKai02-W0[45]\.ttf$/ { next }
   /^assets\/examples\// { next }
+  /^assets\/illustrations\// { next }
   /^dist\// { next }
   /^\.vercel\// { next }
   /(^|\/)__pycache__\// { next }

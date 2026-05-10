@@ -1,17 +1,18 @@
 ---
 name: learn
 description: "Runs a six-phase research workflow to turn unfamiliar domains or collected sources into publish-ready output. Not for quick lookups or single-file reads."
-when_to_use: "学习一下, 深入研究, 研究一下, 整理成文章, research, deep dive, help me understand, compile sources, unfamiliar domain"
+when_to_use: "学习一下, 深入研究, 研究一下, 整理成文章, 把这批材料整理, 一站式参考, 一篇就够, 整理成长文, research, deep dive, help me understand, compile sources, unfamiliar domain"
 metadata:
-  version: "3.14.0"
+  version: "3.15.0"
 ---
 
 # Learn: From Raw Materials to Published Output
 
 Prefix your first line with 🥷 inline, not as its own paragraph.
 
-
 Collect, organize, translate, explain, structure. Support the user's thinking; do not replace it.
+
+**Boundary**: single URL that only needs fetching belongs in `/read`. A single URL that needs summary or analysis can use `/read` as the fetch step, but the final answer should satisfy the user's requested summary or analysis. `/learn` is for multi-source research that produces a new structured output.
 
 ## Pre-check
 
@@ -28,8 +29,22 @@ Ask the user to confirm the mode, using the environment's native question or app
 | **Deep Research** | Understand a domain well enough to write about it | Phase 1 | Phase 6: publish-ready draft |
 | **Quick Reference** | Build a working mental model fast, no article planned | Phase 2 | Phase 2: notes only |
 | **Write to Learn** | Already have materials, force understanding through writing | Phase 3 | Phase 6: publish-ready draft |
+| **Canonical Article** | One article that covers a topic so thoroughly readers need nothing else | Phase 1 | Phase 6: single authoritative reference |
 
 If unsure, suggest Quick Reference.
+
+## Canonical Article Mode
+
+Activate when: "一篇就够", "一站式参考", "整理成长文", "目的是大家只需要看这篇就好了", or the user wants a single authoritative reference on a topic.
+
+Goal: after reading the article, no one should need to search for anything else on this topic.
+
+Additional requirements on top of standard Deep Research:
+- Every major sub-topic must have its own section; nothing left as a footnote
+- Include worked examples, not just principles
+- Cover common mistakes and how to avoid them
+- Add a "Further Reading" section with the 3-5 sources that go deepest; flag which ones are the best starting points
+- Phase 6 self-review must confirm: "Could a reader implement/understand this from this article alone?"
 
 ## Phase 1: Collect
 
@@ -39,7 +54,7 @@ Three ordered steps per source -- no shortcuts, no merging:
 
 1. **Discover** -- use an installed search plugin (e.g., PipeLLM) to map the landscape, then deep-search the 2-3 most promising sub-topics. No plugin: use the environment's native web search. Output is a URL list; do not fetch content here.
 2. **Fetch** -- every URL goes through `/read`. `/read` already owns the proxy cascade, paywall detection, and platform routing (WeChat, Feishu, PDF, GitHub). `WebFetch` and raw `curl` silently fail on JS-heavy or paywalled sites and skip all of that. If `/read` is missing (Pre-check warned), fall back to native fetch and accept reduced coverage.
-3. **File** -- `/read` saves to `~/Downloads/{title}.md`. Move each file into a sub-topic directory under the research project after the fetch returns. Move, don't refetch.
+3. **File** -- `/read` saves to `~/Downloads/{title}.md` when called from `/learn`. Move each file into a sub-topic directory under the research project after the fetch returns. Move, don't refetch.
 
 Target: 5-10 sources for a blog post, 15-20 for a deep technical survey.
 
@@ -102,15 +117,3 @@ When it reads clean from start to finish, the draft is ready for the user to pub
 | Treated a convincing explainer as ground truth | Ask: does this appear in at least two different contexts from the same source? |
 | Phase 2 wrote summaries instead of teaching the concept | Digest means building the mental model. Summarizing is not digesting. |
 | AI offered to upload the article to a blog or social platform after the user said it was ready | Stop at confirmation. Publishing is the user's action, not yours. |
-
-## Specification Writing Mode
-
-Activate when: "codify design rules", "write a spec", "document patterns", or synthesizing design system
-
-Workflow:
-1. **Collect**: Gather all references (existing docs, code, screenshots)
-2. **Extract patterns**: Identify recurring decisions (spacing scale, color palette, typography rules)
-3. **Codify**: Write explicit rules with examples and anti-patterns
-4. **Validate**: Check that the spec covers all observed cases
-
-Output: Structured specification document (e.g., design.md, API.md, style-guide.md)

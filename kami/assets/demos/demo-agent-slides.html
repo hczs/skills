@@ -171,21 +171,25 @@
 
   ul.pts {
     list-style: none;
+    counter-reset: pts;
   }
   ul.pts li {
+    counter-increment: pts;
     font-family: var(--sans);
     font-size: 12.5pt;
     line-height: 1.5;
     color: var(--dark-warm);
-    padding-left: 14pt;
+    padding-left: 18pt;
     position: relative;
     margin-bottom: 9pt;
   }
   ul.pts li::before {
-    content: "\2013";
+    content: counter(pts) ".";
     position: absolute;
     left: 0;
     color: var(--brand);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
   }
   ul.pts li .hl { color: var(--brand); font-weight: 500; }
 
@@ -202,7 +206,9 @@
   }
   .callout .hl { color: var(--brand); }
 
-  /* kami-native metrics: transparent baseline flex row */
+  /* kami-native metrics: vertical stack, number above label.
+     Stacked layout keeps all 3 numbers on one baseline regardless of label
+     length; horizontal baseline-align breaks visually when labels wrap. */
   .metrics {
     display: flex;
     gap: 20pt;
@@ -213,8 +219,8 @@
   .metric {
     flex: 1;
     display: flex;
-    align-items: baseline;
-    gap: 8pt;
+    flex-direction: column;
+    gap: 6pt;
   }
   .metric .v {
     font-family: var(--serif);

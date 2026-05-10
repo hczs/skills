@@ -928,6 +928,27 @@
     margin-bottom: 14px;
   }
 
+  /* FAQ */
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .faq-pair dt {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--near-black);
+    margin-bottom: 4px;
+  }
+  .faq-pair dd {
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--dark-warm);
+    line-height: 1.6;
+    margin: 0;
+  }
+
   /* Brand footer */
   .footer {
     margin-top: 24px;

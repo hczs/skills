@@ -90,8 +90,9 @@
     text-align: right;
     font-size: 10.5pt;
     color: var(--olive);
-    margin-bottom: 20pt;
+    margin-bottom: 24pt;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   .recipient {
@@ -130,6 +131,8 @@
     text-transform: uppercase;
     margin-bottom: 3pt;
   }
+  /* CN locale tuning: TsangerJinKai glyphs read denser, so the subject title
+     sits one step smaller than EN (15pt vs 16pt) with looser leading. */
   .subject .title {
     font-size: 15pt;
     font-weight: 500;
