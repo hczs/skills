@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "c001af84-2518-4e69-943d-00efc5b52fac",
+  "path": "dev-phase-planner",
+  "path_key": "dev-phase-planner",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "dev-phase-planner",
+    "branch": null
+  }
+}

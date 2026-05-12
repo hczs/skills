@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "8dee6dc3-d201-4a80-a945-454b9cdbdb35",
+  "path": "anthropic-diagram",
+  "path_key": "anthropic-diagram",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "anthropic-diagram",
+    "branch": null
+  }
+}

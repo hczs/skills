@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "45eba9b5-b24b-48c3-b39b-080c8b1cd53b",
+  "path": "product-prd-interviewer",
+  "path_key": "product-prd-interviewer",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "product-prd-interviewer",
+    "branch": null
+  }
+}

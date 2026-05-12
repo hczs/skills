@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "86a29ab8-14bb-4aee-9c6e-4348e9937d90",
+  "path": "office-hours",
+  "path_key": "office-hours",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "office-hours",
+    "branch": null
+  }
+}

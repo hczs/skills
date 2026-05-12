@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "3555edf6-7a46-498b-8681-e9d327011acd",
+  "path": "web-access",
+  "path_key": "web-access",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "web-access",
+    "branch": null
+  }
+}

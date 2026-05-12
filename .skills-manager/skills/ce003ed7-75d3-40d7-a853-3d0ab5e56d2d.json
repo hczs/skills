@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "ce003ed7-75d3-40d7-a853-3d0ab5e56d2d",
+  "path": "idea-to-research-prep",
+  "path_key": "idea-to-research-prep",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "idea-to-research-prep",
+    "branch": null
+  }
+}

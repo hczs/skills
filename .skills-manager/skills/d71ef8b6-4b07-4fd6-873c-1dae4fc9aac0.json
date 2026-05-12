@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "d71ef8b6-4b07-4fd6-873c-1dae4fc9aac0",
+  "path": "skill-creator",
+  "path_key": "skill-creator",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "skill-creator",
+    "branch": null
+  }
+}

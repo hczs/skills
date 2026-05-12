@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "e3f43c33-3d2f-4c9f-b6e4-01e5e7097041",
+  "path": "pages-to-api-spec",
+  "path_key": "pages-to-api-spec",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "pages-to-api-spec",
+    "branch": null
+  }
+}

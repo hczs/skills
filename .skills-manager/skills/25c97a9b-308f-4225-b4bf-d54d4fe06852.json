@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "25c97a9b-308f-4225-b4bf-d54d4fe06852",
+  "path": "grill-me",
+  "path_key": "grill-me",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "grill-me",
+    "branch": null
+  }
+}

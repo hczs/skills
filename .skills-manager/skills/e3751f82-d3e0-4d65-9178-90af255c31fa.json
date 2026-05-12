@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "e3751f82-d3e0-4d65-9178-90af255c31fa",
+  "path": "code-reviewer",
+  "path_key": "code-reviewer",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "code-reviewer",
+    "branch": null
+  }
+}

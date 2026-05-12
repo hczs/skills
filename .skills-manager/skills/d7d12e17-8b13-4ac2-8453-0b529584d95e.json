@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "d7d12e17-8b13-4ac2-8453-0b529584d95e",
+  "path": "system-architect",
+  "path_key": "system-architect",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "system-architect",
+    "branch": null
+  }
+}

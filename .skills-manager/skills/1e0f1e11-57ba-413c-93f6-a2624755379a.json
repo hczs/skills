@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "1e0f1e11-57ba-413c-93f6-a2624755379a",
+  "path": "tech-stack-advisor",
+  "path_key": "tech-stack-advisor",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "tech-stack-advisor",
+    "branch": null
+  }
+}

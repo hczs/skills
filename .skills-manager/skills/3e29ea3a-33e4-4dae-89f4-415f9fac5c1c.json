@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "3e29ea3a-33e4-4dae-89f4-415f9fac5c1c",
+  "path": "review-duplication",
+  "path_key": "review-duplication",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "review-duplication",
+    "branch": null
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "0b6f0e50-ca13-49dd-b594-770f734e6ea7",
+  "path": "scaffold",
+  "path_key": "scaffold",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/hczs/skills",
+    "subpath": "scaffold",
+    "branch": null
+  }
+}
